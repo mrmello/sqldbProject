@@ -1,0 +1,8 @@
+---
+applications:
+- name: bluaccnodesample
+  memory: 512M
+  instances: 1
+  domain: mybluemix.net
+  path: .
+  buildpack: https://github.com/ibmdb/db2nodejsbuildpack

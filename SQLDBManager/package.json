@@ -1,0 +1,14 @@
+{
+    "engines": { "node": "0.10.21" },
+    "name": "bluaccnodesample",
+    "version": "0.0.1",
+    "description": "A sample SQLDB manager node app",
+    "dependencies" : {
+      "ibm_db" : "~0.0.1",
+	  "express": "3.x",
+	  "ejs": "x"
+    },
+    "scripts": {
+       "start": "node app.js"
+	}
+}

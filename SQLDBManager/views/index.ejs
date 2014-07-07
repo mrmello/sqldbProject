@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="bootstrap.css" rel="stylesheet">        
+    <link href="main.css" rel="stylesheet">
+	<script language="javascript" type="text/javascript" src="script.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	
+	<title>SQLDB Manager</title>
+		
+  </head>
+
+  <body>
+
+    <div class="header">
+      <div class="container">
+        <h2>SQLDB Manager</h2>
+        <p>Manage the database in a easy way.</p>
+      </div>
+    </div> 
+
+    <div class="learn-more">
+	  <div class="container">
+		<div class="row">
+	  	  <div class="col-md-6 wobble-horizontal glow" onclick="onClickCreateTable()">
+			<h3>Submit Queries</h3>
+			<p>Submit queries such as DELETE, CREATE and SELECT.</p>
+			
+		  </div>
+		  <div class="col-md-6 wobble-horizontal glow" onclick="onClickEditTable()">
+			<h3>Edit Tables</h3>
+			<p>Change the existing tables inserting, editing or deleting entries.</p>		
+		   </div>
+		</div>
+	      </div>
+	    </div>
+		
+					
+			<div id="middleCreate" class="middle">
+			<div>
+			 <h3> Creating Tables </h3>
+			 
+			  <p style="margin-top: 45xpx;">Existing Tables<p>
+			  
+			  <select id="createListBox" class="existingTables" size="10" onchange="onClickTable_1()">>
+				  
+			  </select>
+			  <div style="display: block; margin-bottom: 50px;">
+			  <button onclick="onClickDescribeTable()"> Describe Table </button>
+
+			  </div>
+			  
+			  <div style="margin-bottom: 50px;" id="dataDescTableDiv">
+			 
+			  </div>
+			 	 	
+			  <textarea class="FormElement" id="queryInput" value="" placeholder="Enter query ..." style="width:600px; height:180px; margin-bottom: -19px; display: inline;"></textarea>
+
+			 <button class="submitButton" onclick="onClickSubmitButton()" style="display: inline; margin-left: 15px; width: 160px; height: 45px;"> Submit </button>			  
+			 </div>
+			 
+			 </div>
+			 
+			<div id="middleEdit" class="middle">
+			<div>
+			 <h3> Editing Tables </h3>
+			 			 
+			 <p style="margin-top: 45xpx;">Existing Tables<p>
+			  
+			  <select id="editListBox" class="existingTables" size="10" onchange="onClickTable_2()">
+				
+			  </select>
+			  
+			  <div id="dataTableDiv">
+			 
+			 </div>
+			 
+			 <script> 
+				
+				var x = document.getElementById("createListBox");
+				var y = document.getElementById("editListBox");
+				
+				var data = JSON.parse('<%-JSON.stringify(tablelist)%>');
+				
+				for (var i = 0; i<data.length; i++) { //loop through the array  
+				var obj = data[i];  
+				  
+				for (var key in obj) { //loop through the keys  
+					
+					var option1 = document.createElement("option");
+					var option2 = document.createElement("option");
+					option1.text = obj[key];	
+					option2.text = obj[key];
+					x.add(option1);
+					y.add(option2); 
+				}  
+				
+			}  
+				
+			 </script>			 
+			   
+
+  </body>
+</html>
