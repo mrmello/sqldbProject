@@ -1,3 +1,4 @@
+var pag = 1;
 function onClickCreateTable(){
 
 document.getElementById('middleEdit').style.display = 'none';
@@ -227,7 +228,7 @@ function onClickTable_2(){
 	
 	$.post('/retrieveTable', {option: selectedValue} ,function(data){
 		
-		selectResult(data,selectedValue,true);			
+		selectResult(data,selectedValue,true, pag);			
 				
 	});
 
@@ -252,7 +253,7 @@ function onClickSubmitButton(){
 		if(typeof data == "object"){
 						
 			onClickEditTable();	
-			selectResult(data,"",false);
+			selectResult(data,"",false,pag);
 			
 			}
 			else if(typeof data == "string")
@@ -262,8 +263,7 @@ function onClickSubmitButton(){
 	
 }
 
-function selectResult(data, selectedValue, editable){
-
+function selectResult(data, selectedValue, editable, pag){
 	var disabled="";
 
 	if(!editable)
@@ -308,20 +308,28 @@ function selectResult(data, selectedValue, editable){
 					
 					alreadyInserted = true;
 					  
-					   table_str += '<tr>';
+					   //table_str += '<tr>';
 					   
 					   for (var key3 in item[key2]) {
-						
+						if(row < pag*10 && row >= pag*10-10){
 						table_str += '<td><input id="input'+row+'-'+column+'" onchange="saveChanges('+row+','+column+','+header+','+table+')" type="text" value="'+item2[key3]+'" '+disabled+'></td>';
 					    column++;  
 					  }
-					  
+					  }
+					  if(row < pag*10 && row >= pag*10-10){
 					  if(editable)
 					  table_str += '<td><button onclick="onClickDelete(this.parentNode.parentNode,'+row+','+column+','+header+','+table+')" type="button">Delete</button></td>';
 					  
 					  table_str += '</tr>';
+					  if(row>8 && pag==1){
+					  for(var i=0; i < column ; i++)
+					table_str += '<td><input id="input'+row+'-'+i+'" type="text" value=""></td>';
+					}
+					  }
 					  row++;
-			  }			  
+					  
+			  }
+							  
 			   
 			}
 			
@@ -366,13 +374,15 @@ function selectResult(data, selectedValue, editable){
 						row++;
 						
 						
+						table_str+='<button onclick= "onClickPrevious()"> < </button><button onclick= "onClickNext()"> > </button>';
+						
 						document.getElementById("dataTableDiv").innerHTML = table_str;
 															
 				});			
 			}
 			
 			if(alreadyInserted && editable){
-			table_str +=  '<tr>';
+			//table_str +=  '<tr>';
 			
 			
 			for(var i=0; i < column ; i++)
@@ -381,19 +391,32 @@ function selectResult(data, selectedValue, editable){
 			
 			table_str +=  '<td><button type="button" onclick="onClickInsert('+row+','+column+','+header+','+table+')">Insert</button></td>';
 			
-			table_str += '</tr>';
+			//table_str += '</tr>';
 			
 			row++;			
 			
 			}
 			
 			if(alreadyInserted)
+			{table_str+='<button onclick= "onClickPrevious()"> < </button><button onclick= "onClickNext()"> > </button>';
 			document.getElementById("dataTableDiv").innerHTML = table_str;
-
+}
 
 }
 
+function onClickNext(){
+	pag+=1;
+	onClickTable_2();
+}
 
+function onClickPrevious(){
+	
+	if(pag>1)
+	{
+		pag-=1;
+		onClickTable_2();
+	}
+}
 
 	
 
